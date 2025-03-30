@@ -1,0 +1,9 @@
+# Ignore executable file
+simulation
+
+# Ignore object files
+*.o
+*.out
+
+# Ignore CUDO related intermediate files
+*.cuo
