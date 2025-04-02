@@ -14,7 +14,7 @@ TARGET = $(PROGRAM_NAME)
 SRC = main.cu
 
 # Header files
-HEADERS = cudoinfo.h
+HEADERS = cudoinfo.h, satellite.h
 
 # Object files
 OBJ = $(SRC:.cu=.o)
