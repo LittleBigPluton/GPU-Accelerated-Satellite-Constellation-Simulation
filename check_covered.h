@@ -2,10 +2,10 @@
 #ifndef CHECK_COVERED_H
 #define CHECK_COVERED_H
 
-bool is_covered(const Satellite& sat, const GroundPoint& ground, float minElevationAngle) {
+bool is_covered(const Satellite& sat, const ground_point& ground, float minElevationAngle) {
     // Compute satellite position
     float satX, satY, satZ;
-    sat.computePosition(satX, satY, satZ);
+    sat.compute_position(satX, satY, satZ);
 
     // Calculate the vector from ground point to satellite
     float vx = satX - ground.x();
