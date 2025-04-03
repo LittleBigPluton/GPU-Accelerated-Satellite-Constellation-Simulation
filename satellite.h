@@ -27,6 +27,7 @@ public:
    * @brief Updates the satellite's position based on elapsed time.
    * @param delta_time Elapsed time in seconds.
    */
+  __host__ __device__
   void update_position(float delta_time)
   {
     // Update the current angle
@@ -41,6 +42,7 @@ public:
    * @param y Reference to the y-coordinate of the satellite.
    * @param z Reference to the z-coordinate of the satellite.
    */
+  __host__ __device__
   void compute_position(float& x, float& y, float& z) const
   {
     x = satellite_radius * cos(satellite_cur_ang);
