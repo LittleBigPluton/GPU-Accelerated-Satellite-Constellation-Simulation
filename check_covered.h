@@ -1,7 +1,11 @@
 
 #ifndef CHECK_COVERED_H
 #define CHECK_COVERED_H
+#include <cmath>
+#include "satellite.h"
+#include "groundpoint.h"
 
+__host__ __device__
 bool is_covered(const Satellite& sat, const ground_point& ground, float minElevationAngle) {
     // Compute satellite position
     float satX, satY, satZ;

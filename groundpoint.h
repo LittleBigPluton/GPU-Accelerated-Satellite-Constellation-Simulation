@@ -28,18 +28,21 @@ public:
      * @brief Gets the x-coordinate of the ground point.
      * @return The x-coordinate as a float.
      */
+     __host__ __device__
     float x() const { return m_x; }
 
     /**
      * @brief Gets the y-coordinate of the ground point.
      * @return The y-coordinate as a float.
      */
+     __host__ __device__
     float y() const { return m_y; }
 
     /**
      * @brief Gets the z-coordinate of the ground point.
      * @return The z-coordinate as a float.
      */
+     __host__ __device__
     float z() const { return m_z; }
 
 private:
