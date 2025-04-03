@@ -7,7 +7,7 @@
 #define GROUND_POINT_H
 
 /**
- * @class GroundPoint
+ * @class ground_point
  * @brief Represents a point on the ground in a 3D coordinate system.
  *
  * This class provides simple getter methods to access the x, y, and z coordinates.
