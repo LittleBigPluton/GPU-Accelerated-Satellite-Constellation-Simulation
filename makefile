@@ -11,7 +11,7 @@ CXXFLAGS = -O3 -std=c++17
 TARGET = $(PROGRAM_NAME)
 
 # Source files
-SRC = test.cu
+SRC = test_sight.cu
 
 # Header files
 HEADERS = cudoinfo.h, satellite.h, groundpoint.h, check_covered.h
