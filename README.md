@@ -21,6 +21,17 @@ The project focuses on parallelizing independent satellite updates and elevation
 
 ---
 
+## Performance at a Glance
+
+| Workload | GPU End-to-End Speedup |
+|---|---:|
+| 1,000,000 satellites × 1 step | **8.73×** |
+| 1,000,000 satellites × 100 resident steps | **46.84×** |
+
+*Median across three independent Release-mode benchmark executions versus a single-threaded CPU baseline.*
+
+---
+
 ## Simulation Model
 
 The project uses a deliberately simplified orbital model designed to isolate the computational structure of constellation simulation and GPU acceleration.
@@ -261,9 +272,14 @@ Expected result:
 
 The CPU/GPU consistency test compares both implementations using the same initial constellation and simulation parameters.
 
+> GitHub Actions verifies the CUDA build and CPU-side tests on a hosted runner.
+> The device-dependent CPU/GPU consistency test is skipped when no CUDA-capable
+> GPU is available; full CPU/GPU validation was performed locally on the
+> benchmark hardware.
+
 ---
 
-# Benchmark
+## Benchmark
 
 The benchmark evaluates the same workload on the serial CPU implementation and the CUDA implementation.
 
@@ -276,9 +292,7 @@ GPU memory allocation is excluded from timing in both cases.
 
 Correctness validation is performed outside the timed regions.
 
----
 
-## Benchmark Methodology
 
 ### Single-Step Benchmark
 
@@ -308,9 +322,8 @@ End-to-end timing includes:
 
 It therefore represents a conservative case where input data begins on the host and the result is required back on the host after one step.
 
----
 
-## Single-Step Results
+### Single-Step Results
 
 Final values are the median across **three independent benchmark executions**.
 
@@ -323,9 +336,8 @@ Final values are the median across **three independent benchmark executions**.
 
 For large workloads, the CUDA kernels provide substantial acceleration, while host-device transfer and synchronization overhead reduce the end-to-end speedup.
 
----
 
-## GPU-Resident Multi-Step Benchmark
+### GPU-Resident Multi-Step Benchmark
 
 A simulation normally performs multiple timesteps over the same satellite state.
 
@@ -352,9 +364,8 @@ Each workload is executed **5 times** per benchmark execution.
 
 A separate satellite-state transfer used only for correctness validation is excluded from timing.
 
----
 
-## Resident Multi-Step Results
+### Resident Multi-Step Results
 
 Final values are the median across **three independent benchmark executions**.
 
@@ -380,9 +391,8 @@ Keeping simulation state resident on the GPU allows transfer overhead to be amor
 
 The end-to-end speedup therefore approaches the kernel-level speedup as the amount of computation performed per transfer increases.
 
----
 
-## Benchmark Validation
+### Benchmark Validation
 
 Every benchmark workload validates the final CPU and GPU coverage results.
 
@@ -390,13 +400,12 @@ The resident benchmark additionally checks sampled final satellite positions to 
 
 All workloads passed validation in all three final benchmark executions.
 
----
 
-## Interpreting the Results
+### Interpreting the Results
 
 The benchmark demonstrates two different GPU-computing regimes.
 
-### Transfer-dominated execution
+#### Transfer-dominated execution
 
 For a single simulation step:
 
@@ -417,7 +426,7 @@ Kernel speedup:      48.55x
 End-to-end speedup:   8.73x
 ```
 
-### Compute-dominated resident execution
+#### Compute-dominated resident execution
 
 When satellite state stays on the device across many timesteps:
 
@@ -442,9 +451,8 @@ End-to-end speedup:  46.84x
 
 This illustrates why data residency and transfer strategy are important parts of GPU application design, not only kernel parallelization.
 
----
 
-## Benchmark Reproducibility
+### Benchmark Reproducibility
 
 The published results use:
 
