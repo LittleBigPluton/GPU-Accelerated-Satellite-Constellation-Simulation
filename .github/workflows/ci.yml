@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+
+  pull_request:
+    branches:
+      - main
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build-and-test:
+    name: CUDA 12.4 Build and Test
+    runs-on: ubuntu-latest
+
+    container:
+      image: nvidia/cuda:12.4.1-devel-ubuntu22.04
+
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Install build dependencies
+        run: |
+          apt-get update
+          DEBIAN_FRONTEND=noninteractive apt-get install -y \
+            --no-install-recommends \
+            cmake \
+            ninja-build \
+            g++ \
+            git \
+            ca-certificates
+
+          rm -rf /var/lib/apt/lists/*
+
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Show toolchain information
+        run: |
+          echo "CMake:"
+          cmake --version
+
+          echo
+          echo "C++ compiler:"
+          g++ --version
+
+          echo
+          echo "CUDA compiler:"
+          nvcc --version
+
+      - name: Configure
+        run: |
+          cmake \
+            -S . \
+            -B build \
+            -G Ninja \
+            -DCMAKE_BUILD_TYPE=Release \
+            -DCMAKE_CUDA_ARCHITECTURES=61
+
+      - name: Build
+        run: |
+          cmake --build build --parallel 2
+
+      - name: Run tests
+        run: |
+          ctest \
+            --test-dir build \
+            --output-on-failure
