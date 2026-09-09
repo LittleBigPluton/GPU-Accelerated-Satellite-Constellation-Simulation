@@ -1,5 +1,7 @@
 # GPU-Accelerated Satellite Constellation Simulation
 
+[![CI](https://github.com/LittleBigPluton/GPU-Accelerated-Satellite-Constellation-Simulation/actions/workflows/ci.yml/badge.svg)](https://github.com/LittleBigPluton/GPU-Accelerated-Satellite-Constellation-Simulation/actions/workflows/ci.yml)
+
 A C++17/CUDA simulation project for evaluating satellite motion and ground-point coverage on both CPU and GPU.
 
 The project focuses on parallelizing independent satellite updates and elevation-angle coverage calculations with CUDA while preserving a shared CPU/GPU implementation for correctness. On the tested hardware, the GPU-resident simulation achieved a median **46.84× end-to-end speedup** over the single-threaded CPU baseline for **1,000,000 satellites across 100 timesteps**.
